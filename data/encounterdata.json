@@ -1,0 +1,104 @@
+{
+    "encounters":[
+        {
+            "name":"Firemaw",
+            "expansion":"classic",
+            "map":"Blackwing Lair",
+            "requirements":[
+                {
+                    "name":"tank",
+                    "classes":"warrior,druid",
+                    "minimum":1,
+                    "recommended":3,
+                    "resistance_data":[
+                        {
+                            "type":"fire",
+                            "minimum":150,
+                            "recommended":250,
+                            "cheesable":true,
+                            "nukable":true,
+                            "nukable_con_wbuffed":true,
+                            "nukable_con_heavy_geared":true,
+                            "nukable_con_tryhard_comp":true,
+                            "group_flags":0
+                        }
+                    ],
+                    "mechanics_data":[
+                        {
+                            "name":"Wing Buffet",
+                            "target":"front",
+                            "mechanic":"knock",
+                            "school":"physical",
+                            "avoidable":true,
+                            "cheesable":true,
+                            "dispellable":false,
+                            "tremorable":false,
+                            "boppable":false,
+                            "estimated_interval":30.0,
+                            "estimated_cooldown":30.0,
+                            "range":10
+                        },
+                        {
+                            "name":"Shadow Flame",
+                            "target":"front",
+                            "mechanic":"magic",
+                            "school":"shadow",
+                            "avoidable":true,
+                            "cheesable":false,
+                            "dispellable":false,
+                            "tremorable":false,
+                            "boppable":false,
+                            "estimated_interval":20.0,
+                            "estimated_cooldown":20.0,
+                            "estimated_damage":20000,
+                            "resistable_partially":true,
+                            "resistable_fully":true,
+                            "range":100
+                        },
+                        {
+                            "name":"Flame Buffet",
+                            "target":"aoe",
+                            "mechanic":"magic",
+                            "school":"fire",
+                            "avoidable":true,
+                            "cheesable":false,
+                            "dispellable":false,
+                            "tremorable":false,
+                            "boppable":false,
+                            "estimated_interval":2.0,
+                            "estimated_cooldown":2.0,
+                            "estimated_damage":400,
+                            "stacks":true,
+                            "resistable_partially":true,
+                            "resistable_fully":true,
+                            "range":-1
+                        }
+                    ],
+                    "item_data":[
+                        {
+                            "name":"Onyxia Scale Cloak",
+                            "equipped":true,
+                            "cheesable":false
+                        }
+                    ]
+                },
+                {
+                    "name":"healer",
+                    "classes":"priest,paladin,shaman,druid",
+                    "minimum":2,
+                    "recommended":8
+                },
+                {
+                    "name":"dps",
+                    "minimum":1,
+                    "recommended":25
+                }
+            ]
+            
+
+        },
+        {
+            "name":"Princess Huhuran"
+        }
+    ]
+}
