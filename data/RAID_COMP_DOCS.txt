@@ -1,0 +1,62 @@
+Raid Group Bit Flags ("group_flags")
+
+0 = None
+1 = Tank
+2 = Healer
+4 = DPS
+8 = Melee
+16 = Range
+32 = Physical
+64 = Magical
+128 = Mana Bar
+256 = Rage Bar
+512 = Energy Bar
+
+"name"                               = String     - Name of encounter
+"expansion"                          = String     - Which expansion is this config for, "classic", "tbc"...
+"map"                                = String     - Which raid does this encounter belong to, or map rather https://wow.tools/dbc/?dbc=map&build=2.5.1.39170 (Check MapName_lang)
+
+"requirements"                       = Array      - Requirements needed to defeat the boss
+	"name"                           = String     - Name of role who needs to meet the requirements
+	"classes"                        = String     - Which classes can fill this role, seperate by comma, "warrior,druid,paladin", If theres no classes fields, it assumes all possible classes for that role, for that expansion
+	"minimum"                        = Number     - Minimum amount of these roles needed
+	"recommended"                    = Number     - Recommended amount of these roles needed
+	
+	"resistance_data"                = Array      - Resistances needed to defeat the boss
+		"type"                       = String     - Type of resistance (example: "fire"). Types = fire,frost,nature,arcane,shadow
+		"minimum"                    = Number     - Minimum amount of resistance needed unbuffed
+		"recommended"                = Number     - Recommended amount of resistance needed unbuffed
+		"cheesable"                  = True/False - Can the encounter be cheesed without resistance gear
+		"nukable"                    = True/False - Can the encounter be nuked without resistance gear
+		"nukable_con_wbuffed"        = True/False - does the group need to be world buffed to nuke it (Classic only)
+		"nukable_con_heavy_geared"   = True/False - does the group need to be heavily geared to nuke it
+		"nukable_con_tryhard_comp"   = True/False - does the raid composition need to be optimal to nuke it
+		"group_flags"                = Number     - Which groups, (Listed above)
+		
+	"mechanics_data"                 = Array      - Mechanics the boss can do on this role
+		"name"                       = String     - Name of mechanic, can be anything u want
+		"target"                     = String     - "single", "aoe", "front", "back"
+		"mechanic"                   = String     - Type of mechanic, fear, stun, projectile, magic, knock, charm,
+		"school"                     = String     - School this mechanic belongs to, physical,fire,frost,nature,arcane,shadow
+		"avoidable"                  = True/False - can this mechanic be avoidable (Can the role move out of it by choice)
+		"cheesable"                  = True/False - can this mechanic be cheesed (Can the mechanic be completely ignored in a way)
+		"dispellable"                = True/False - can this mechanic be dispelled
+		"tremorable"                 = True/False - can this mechanic be dispelled with tremor
+		"boppable"                   = True/False - can this mechanic be bopped/blessing of protection paladin
+		"dispellable_type"           = String     - (example: "poison") Types = poison,disease,magic
+		"estimated_interval"         = Decimal    - Estimation of how often the boss does this mechanic, -1 for random (seconds)
+		"estimated_cooldown"         = Decimal    - Estimated internal cooldown of the mechanic (seconds)
+		"estimated_damage"           = Number     - Estimated damage this mechanic does on the target unbuffed and assuming 0 armor
+		"stacks"                     = True/False - Does this mechanic stack on the player
+		"resistable_partially"       = True/False - Can some of the damage be negated?
+		"resistable_fully"           = True/False - Can the mechanic be fully resistable (no damage at all taken)
+		"range"                      = Number     - Yards the mechanic reaches (0 = melee) (-1 = infinite)
+		"group_flags"                = Number     - Which groups, (Listed above)
+		
+	"item_data"                      = Array      - Items required during the encounter
+		"name"                       = String     - Name of the required item
+		"equipped"                   = True/False - Does it need to be equipped or not
+		"cheesable"                  = True/False - Is the item 100% necessary, or can it be cheesed
+		"group_flags"                = Number     - Which groups, (Listed above)
+		
+		
