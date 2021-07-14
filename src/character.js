@@ -76,6 +76,7 @@ class CharacterRace
     {
         this.m_szName             = null;
         this.m_iID                = null;
+        this.m_Aliases            = null;
     }  
 }
 
@@ -172,6 +173,17 @@ function FindRace(raceName)
         {
             count++;
             latest = key;
+        }
+        else
+        {
+            for(var i = 0; i < value.m_Aliases.length; i++)
+            {
+                if(value.m_Aliases[i].includes(raceName.toLowerCase()))
+                {
+                    count++;
+                    latest = key;
+                }
+            }
         }
     }
 
@@ -297,6 +309,33 @@ function LoadCharacterRaces()
             var race = new CharacterRace;
             race.m_szName             = data['Name_lang'];
             race.m_iID                = data['ID'];
+            race.m_Aliases            = [];
+
+            if(race.m_szName.toLowerCase() === "night elf")
+            {
+                race.m_Aliases.push("nelf");
+                race.m_Aliases.push("nightelf");
+            }
+            else if(race.m_szName.toLowerCase() === "blood elf")
+            {
+                race.m_Aliases.push("belf");
+                race.m_Aliases.push("bloodelf");
+            }
+            else if(race.m_szName.toLowerCase() === "dwarf")
+            {
+                race.m_Aliases.push("dworf");
+            }
+            else if(race.m_szName.toLowerCase() === "tauren")
+            {
+                race.m_Aliases.push("cow");
+            }
+            else if(race.m_szName.toLowerCase() === "draenei")
+            {
+                race.m_Aliases.push("goat");
+                race.m_Aliases.push("dranei");
+                race.m_Aliases.push("drenai");
+                race.m_Aliases.push("dreanei");
+            }
 
             g_Races.set(race.m_szName.toLowerCase(), race);
         });
