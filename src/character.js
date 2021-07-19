@@ -248,6 +248,7 @@ function LoadCharacterClasses()
                         spec.m_szName = "Bear";
                         spec.m_Aliases.push("guardian");
                         spec.m_Aliases.push("tank");
+                        spec.m_Aliases.push("prot");
                     }
                     else if(spec.m_szName === "Balance")
                     {
@@ -270,6 +271,20 @@ function LoadCharacterClasses()
                     else if(spec.m_szName === "Marksmanship")
                     {
                         spec.m_Aliases.push("mm");
+                    }
+                }
+                else if(cls.m_szName === "Rogue")
+                {
+                    if(spec.m_szName === "Combat")
+                    {
+                        spec.m_Aliases.push("sword");
+                        spec.m_Aliases.push("dagger");
+                        spec.m_Aliases.push("mace");
+                        spec.m_Aliases.push("fist");
+                    }
+                    else if(spec.m_szName === "Assassination")
+                    {
+                        spec.m_Aliases.push("mutilate");
                     }
                 }
                 
