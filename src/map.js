@@ -29,6 +29,7 @@ class GameMap
         this.m_iID                = null;
         this.m_iInstanceType      = null;
         this.m_iExpansionID       = null;
+        this.m_iMaxPlayers        = null;
     }  
 }
 
@@ -93,6 +94,7 @@ function LoadGameMaps()
             map.m_iID           = data['ID'];
             map.m_iInstanceType = data['InstanceType'];
             map.m_iExpansionID  = data['ExpansionID'];
+            map.m_iMaxPlayers   = data['MaxPlayers'];
 
             g_GameMaps.set(map.m_szName.toLowerCase(), map);
         });
@@ -112,6 +114,9 @@ module.exports =
     GetGameMap,
     FindGameMap,
     LoadGameMaps,
+
+    InstanceType,
+    ExpansionType,
 
     g_GameMaps,
 };

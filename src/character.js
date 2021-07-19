@@ -209,7 +209,7 @@ function LoadCharacterClasses()
             var cls = new CharacterClass;
             cls.m_szName             = data['Name_lang'];
             cls.m_iID                = data['ID'];
-            cls.m_iMapID             = data['HasRelicSlot'];
+            cls.m_bHasRelicSlot      = data['HasRelicSlot'];
 
             cls.m_Specs = new Map();
 
