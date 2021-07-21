@@ -1,9 +1,39 @@
 const fs = require('fs');
 const path = require('path');
-const Settings = require('../../settings');
-const DungeonEncounters = require('../dungeonencounter');
+const Settings = require('../settings');
+const DungeonEncounters = require('./dungeonencounter');
 
 var g_EncounterMap = new Map();
+var g_RaidMap      = new Map();
+
+const EncounterMechanicTargetType = 
+{
+    SINGLE: "single",
+    AOE:    "aoe",
+    FRONT:  "front",
+    BACK:   "back"
+}
+
+const EncounterMechanicType = 
+{
+    FEAR:       "fear",
+    STUN:       "stun",
+    PROJECTILE: "projectile",
+    MAGIC:      "magic",
+    KNOCK:      "knock",
+    CHARM:      "charm"
+}
+
+const EncounterMechanicSchoolType = 
+{
+    PHYSICAL: "physical",
+    FROST:    "frost",
+    FIRE:     "fire",
+    NATURE:   "nature",
+    SHADOW:   "shadow",
+    ARCANE:   "arcane",
+    HOLY:     "holy"
+}
 
 class EncounterItem
 {
@@ -203,14 +233,58 @@ class EncounterData
 
         return encData;
     }
+
+    GetMechanicCount(mechanic = null, target = null, school = null)
+    {
+        var count = 0;
+        for(var i = 0; i < this.m_UntouchedPlayerList.length; i++)
+        {
+            count += ((cls==null?true:((cls!=null&&this.m_UntouchedPlayerList[i].m_Class.m_szName===cls)?true:false)) && 
+                      (spec==null?true:(cls==null?true:(spec!=null&&this.m_UntouchedPlayerList[i].m_Spec.m_szName===spec)?true:false)) &&
+                      (role==null?true:((role!=null&&this.m_UntouchedPlayerList[i].m_szRole===role)?true:false)) && 
+                      (race==null?true:((race!=null&&this.m_UntouchedPlayerList[i].m_Race.m_szName===race)?true:false)));
+        }
+        
+        return count;
+    }
 }
 
-function LoadEncounterData()
+class RaidData
 {
-    var rawdata = fs.readFileSync(path.join(Settings.DATA_FOLDER, Settings.DATA_FILES.ENCOUNTERDATA));
-    var encounterDataJSON = JSON.parse(rawdata);
+    constructor()
+    {
+        this.m_szName      = null;
+        this.m_bAttunement = null;
+        this.m_bFrostRes   = null;
+        this.m_bFireRes    = null;
+        this.m_bNatureRes  = null;
+        this.m_bShadowRes  = null;
+        this.m_bArcaneRes  = null;
+    }
 
-    var encounters = encounterDataJSON["encounters"];
+    static FromJSON(json)
+    {
+        var raidData = new RaidData();
+
+        raidData.m_szName      = json["name"];
+        raidData.m_bAttunement = json["attunement"];
+        raidData.m_bFrostRes   = json["frost_res"];
+        raidData.m_bFireRes    = json["fire_res"];
+        raidData.m_bNatureRes  = json["nature_res"];
+        raidData.m_bShadowRes  = json["shadow_res"];
+        raidData.m_bArcaneRes  = json["arcane_res"];
+
+        return raidData;
+    }
+}
+
+function LoadRaidData()
+{
+    var rawdata = fs.readFileSync(path.join(Settings.DATA_FOLDER, Settings.DATA_FILES.RAIDDATA));
+    var raidDataJSON = JSON.parse(rawdata);
+
+    var encounters = raidDataJSON["encounters"];
+    var raids      = raidDataJSON["raids"];
     if(encounters != null)
     {
         encounters.forEach(function(enc) {
@@ -218,9 +292,19 @@ function LoadEncounterData()
             g_EncounterMap.set(encData.m_szName.toLowerCase(), encData);
         });
     }
+    if(raids != null)
+    {
+        raids.forEach(function(raid) {
+            var raidData = RaidData.FromJSON(raid);
+            g_RaidMap.set(raidData.m_szName.toLowerCase(), raidData);
+        });
+    }
+
+    console.log(`${Settings.LOG_PREFIX} Loaded dungeon encounter comp data.`);
 }
 
 /**
+ * Get encounter data
  * 
  * @param enc - Name of an encounter or ID of an encounter, check https://wowpedia.fandom.com/wiki/DungeonEncounterID for encounter IDs (example: "Firemaw" or 613). Not case sensitive
  * @returns EncounterData
@@ -243,6 +327,17 @@ function GetEncounterData(enc)
     return null;
 }
 
+/**
+ * Get raid data
+ * 
+ * @param raid - Name of a raid/map
+ * @returns RaidData
+ */
+function GetRaidData(raid)
+{
+    return g_RaidMap.get(raid.toLowerCase());
+}
+
 module.exports =
 {
     EncounterItem,
@@ -251,6 +346,13 @@ module.exports =
     EncounterRequirement,
     EncounterData,
 
-    LoadEncounterData,
-    GetEncounterData
+    RaidData,
+
+    LoadRaidData,
+    GetEncounterData,
+    GetRaidData,
+
+    EncounterMechanicTargetType,
+    EncounterMechanicType,
+    EncounterMechanicSchoolType
 };

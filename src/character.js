@@ -208,7 +208,7 @@ function LoadCharacterClasses()
         reader.on('data', (data) => {
             var cls = new CharacterClass;
             cls.m_szName             = data['Name_lang'];
-            cls.m_iID                = data['ID'];
+            cls.m_iID                = Number(data['ID']);
             cls.m_bHasRelicSlot      = data['HasRelicSlot'];
 
             cls.m_Specs = new Map();
@@ -223,8 +223,8 @@ function LoadCharacterClasses()
 
             specReader.on('data', (data) => {
 
-                var classId = data['ClassID'];
-                var cls = GetClass(Number(classId));
+                var classId = Number(data['ClassID']);
+                var cls = GetClass(classId);
 
                 if(cls == null)
                     return;
@@ -303,6 +303,7 @@ function LoadCharacterClasses()
             });
 
             specReader.on('end', () => {
+                console.log(`${Settings.LOG_PREFIX} Loaded character classes.`);
                 resolve();
             });
             
@@ -323,7 +324,7 @@ function LoadCharacterRaces()
         reader.on('data', (data) => {
             var race = new CharacterRace;
             race.m_szName             = data['Name_lang'];
-            race.m_iID                = data['ID'];
+            race.m_iID                = Number(data['ID']);
             race.m_Aliases            = [];
 
             if(race.m_szName.toLowerCase() === "night elf")
@@ -356,6 +357,7 @@ function LoadCharacterRaces()
         });
 
         reader.on('end', () => {
+            console.log(`${Settings.LOG_PREFIX} Loaded character races.`);
             resolve();
         });
     });

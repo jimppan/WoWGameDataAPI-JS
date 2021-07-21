@@ -4,6 +4,8 @@ const path = require('path');
 
 var Settings = require('../settings');
 
+var GameMaps = require('./map');
+
 var g_DungeonEncounters = new Map();
 
 class DungeonEncounter
@@ -81,19 +83,21 @@ function LoadDungeonEncounters()
         reader.on('data', (data) => {
             var enc = new DungeonEncounter;
             enc.m_szName             = data['Name_lang'];
-            enc.m_iID                = data['ID'];
-            enc.m_iMapID             = data['MapID'];
-            enc.m_iDifficultyID      = data['DifficultyID'];
-            enc.m_iOrderIndex        = data['OrderIndex'];
-            enc.m_iBit               = data['Bit'];
-            enc.m_iCreatureDisplayID = data['CreatureDisplayID'];
-            enc.m_iFlags             = data['Flags'];
-            enc.m_iSpellIconFileID   = data['SpellIconFileID'];
+            enc.m_iID                = Number(data['ID']);
+            enc.m_iMapID             = Number(data['MapID']);
+            enc.m_iDifficultyID      = Number(data['DifficultyID']);
+            enc.m_iOrderIndex        = Number(data['OrderIndex']);
+            enc.m_iBit               = Number(data['Bit']);
+            enc.m_iCreatureDisplayID = Number(data['CreatureDisplayID']);
+            enc.m_iFlags             = Number(data['Flags']);
+            enc.m_iSpellIconFileID   = Number(data['SpellIconFileID']);
 
+            GameMaps.GetGameMap(enc.m_iMapID).m_Encounters.push(enc);
             g_DungeonEncounters.set(enc.m_szName.toLowerCase(), enc);
         });
 
         reader.on('end', () => {
+            console.log(`${Settings.LOG_PREFIX} Loaded dungeon encounters.`);
             resolve();
         });
     });
