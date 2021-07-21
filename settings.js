@@ -11,7 +11,7 @@ var DATA_PATCH                  = '2.5.1.39170';
 
 var DATA_FILES = 
 {
-  ENCOUNTERDATA:     "encounterdata.json",
+  RAIDDATA:     "raiddata.json",
 
   DUNGEONENCOUNTERS: "dungeonencounter.csv",
   CHRCLASSES:        "chrclasses.csv",

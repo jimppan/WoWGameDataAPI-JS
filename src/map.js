@@ -29,6 +29,8 @@ class GameMap
         this.m_iID                = null;
         this.m_iInstanceType      = null;
         this.m_iExpansionID       = null;
+        this.m_iMaxPlayers        = null;
+        this.m_Encounters         = null;
     }  
 }
 
@@ -90,14 +92,17 @@ function LoadGameMaps()
         reader.on('data', (data) => {
             var map = new GameMap;
             map.m_szName        = data['MapName_lang'];
-            map.m_iID           = data['ID'];
+            map.m_iID           = Number(data['ID']);
             map.m_iInstanceType = data['InstanceType'];
-            map.m_iExpansionID  = data['ExpansionID'];
+            map.m_iExpansionID  = Number(data['ExpansionID']);
+            map.m_iMaxPlayers   = Number(data['MaxPlayers']);
+            map.m_Encounters    = [];
 
             g_GameMaps.set(map.m_szName.toLowerCase(), map);
         });
 
         reader.on('end', () => {
+            console.log(`${Settings.LOG_PREFIX} Loaded game maps.`);
             resolve();
         });
     });
@@ -112,6 +117,9 @@ module.exports =
     GetGameMap,
     FindGameMap,
     LoadGameMaps,
+
+    InstanceType,
+    ExpansionType,
 
     g_GameMaps,
 };

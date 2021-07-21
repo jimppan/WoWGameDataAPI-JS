@@ -76,6 +76,7 @@ class CharacterRace
     {
         this.m_szName             = null;
         this.m_iID                = null;
+        this.m_Aliases            = null;
     }  
 }
 
@@ -173,6 +174,17 @@ function FindRace(raceName)
             count++;
             latest = key;
         }
+        else
+        {
+            for(var i = 0; i < value.m_Aliases.length; i++)
+            {
+                if(value.m_Aliases[i].includes(raceName.toLowerCase()))
+                {
+                    count++;
+                    latest = key;
+                }
+            }
+        }
     }
 
     // did not find unique match
@@ -196,8 +208,8 @@ function LoadCharacterClasses()
         reader.on('data', (data) => {
             var cls = new CharacterClass;
             cls.m_szName             = data['Name_lang'];
-            cls.m_iID                = data['ID'];
-            cls.m_iMapID             = data['HasRelicSlot'];
+            cls.m_iID                = Number(data['ID']);
+            cls.m_bHasRelicSlot      = data['HasRelicSlot'];
 
             cls.m_Specs = new Map();
 
@@ -211,8 +223,8 @@ function LoadCharacterClasses()
 
             specReader.on('data', (data) => {
 
-                var classId = data['ClassID'];
-                var cls = GetClass(Number(classId));
+                var classId = Number(data['ClassID']);
+                var cls = GetClass(classId);
 
                 if(cls == null)
                     return;
@@ -236,6 +248,7 @@ function LoadCharacterClasses()
                         spec.m_szName = "Bear";
                         spec.m_Aliases.push("guardian");
                         spec.m_Aliases.push("tank");
+                        spec.m_Aliases.push("prot");
                     }
                     else if(spec.m_szName === "Balance")
                     {
@@ -260,6 +273,20 @@ function LoadCharacterClasses()
                         spec.m_Aliases.push("mm");
                     }
                 }
+                else if(cls.m_szName === "Rogue")
+                {
+                    if(spec.m_szName === "Combat")
+                    {
+                        spec.m_Aliases.push("sword");
+                        spec.m_Aliases.push("dagger");
+                        spec.m_Aliases.push("mace");
+                        spec.m_Aliases.push("fist");
+                    }
+                    else if(spec.m_szName === "Assassination")
+                    {
+                        spec.m_Aliases.push("mutilate");
+                    }
+                }
                 
                 if(spec.m_szName === "Protection")
                 {
@@ -276,6 +303,7 @@ function LoadCharacterClasses()
             });
 
             specReader.on('end', () => {
+                console.log(`${Settings.LOG_PREFIX} Loaded character classes.`);
                 resolve();
             });
             
@@ -296,12 +324,40 @@ function LoadCharacterRaces()
         reader.on('data', (data) => {
             var race = new CharacterRace;
             race.m_szName             = data['Name_lang'];
-            race.m_iID                = data['ID'];
+            race.m_iID                = Number(data['ID']);
+            race.m_Aliases            = [];
+
+            if(race.m_szName.toLowerCase() === "night elf")
+            {
+                race.m_Aliases.push("nelf");
+                race.m_Aliases.push("nightelf");
+            }
+            else if(race.m_szName.toLowerCase() === "blood elf")
+            {
+                race.m_Aliases.push("belf");
+                race.m_Aliases.push("bloodelf");
+            }
+            else if(race.m_szName.toLowerCase() === "dwarf")
+            {
+                race.m_Aliases.push("dworf");
+            }
+            else if(race.m_szName.toLowerCase() === "tauren")
+            {
+                race.m_Aliases.push("cow");
+            }
+            else if(race.m_szName.toLowerCase() === "draenei")
+            {
+                race.m_Aliases.push("goat");
+                race.m_Aliases.push("dranei");
+                race.m_Aliases.push("drenai");
+                race.m_Aliases.push("dreanei");
+            }
 
             g_Races.set(race.m_szName.toLowerCase(), race);
         });
 
         reader.on('end', () => {
+            console.log(`${Settings.LOG_PREFIX} Loaded character races.`);
             resolve();
         });
     });
