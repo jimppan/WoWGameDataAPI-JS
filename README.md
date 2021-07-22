@@ -1,5 +1,5 @@
 # WoWGameDataAPI-JS
-API for WoW gamedata, data used from wow.tools
+API for WoW gamedata, data used from blizzard api & wow.tools
 
 # Dependencies
 
