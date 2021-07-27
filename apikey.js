@@ -16,14 +16,13 @@ const NamespaceVersion =
 }
 
 var BLIZZARDAPI_REGION              = "eu";
-var BLIZZARDAPI_NAMESPACE           = `${NamespaceCategory.DYNAMIC}-${NamespaceVersion.CLASSIC}-${BLIZZARDAPI_REGION}`
+var BLIZZARDAPI_NAMESPACE           = `${NamespaceCategory.DYNAMIC}-${NamespaceVersion.CLASSIC}`
 var BLIZZARDAPI_LOCALE              = "en_US"
 
 var   BLIZZARDAPI_ACCESS_TOKEN      = null;                           // Received from oauth2 request after calling (InitAPI())
-var   BLIZZARDAPI_URL_START         = 'https://';
-var   BLIZZARDAPI_URL_END           = '.api.blizzard.com/';
 
-var   BLIZZARDAPI_URL               = `${BLIZZARDAPI_URL_START}${module.exports.BLIZZARDAPI_REGION}${BLIZZARDAPI_URL_END}`; // By default, is changed once InitAPI is called with region paramater
+const   BLIZZARDAPI_URL_START         = 'https://';
+const   BLIZZARDAPI_URL_END           = '.api.blizzard.com/';
 
 const BLIZZARDAPI_AUTH  = new ClientOAuth2({
     clientId:         'Client-ID-Here',
@@ -33,17 +32,16 @@ const BLIZZARDAPI_AUTH  = new ClientOAuth2({
     redirectUri:      'http://example.com/auth/github/callback'
 })
 
-/**
- * 
- * @param {String} region    - Region to get data for (EU, US, KR, TW, CN)
- * @param {String} namespace - Name space, static-classic, dynamic-classic...
- * @param {String} locale    - Language (en_US by default)
- */
-function SetAPIOptions(region = BLIZZARDAPI_REGION, namespace = BLIZZARDAPI_NAMESPACE, locale = BLIZZARDAPI_LOCALE)
+function BuildAPIURL(sub_url)
 {
-    BLIZZARDAPI_REGION = region;
-    BLIZZARDAPI_NAMESPACE = namespace;
-    BLIZZARDAPI_LOCALE = locale;
+    return BLIZZARDAPI_URL_START+
+        BLIZZARDAPI_REGION+
+        BLIZZARDAPI_URL_END+sub_url;
+}
+
+function BuildNamespace()
+{
+    return BLIZZARDAPI_NAMESPACE + "-" + BLIZZARDAPI_REGION;
 }
 
 /**
@@ -57,15 +55,17 @@ function Get(sub_url, param)
 {
     var promise = new Promise(async (resolve, reject) =>
     {
-        var ret = await Axios.get(BLIZZARDAPI_URL+sub_url, 
+        console.log(BuildAPIURL(sub_url));
+        console.log(BuildNamespace())
+        var ret = await Axios.get(BuildAPIURL(sub_url), 
             {
                 params: 
                 {...param,
-                    namespace: BLIZZARDAPI_NAMESPACE
+                    namespace: BuildNamespace()
                 },
                 headers:
                 {
-                    authorization: `Bearer ${module.exports.BLIZZARDAPI_ACCESS_TOKEN}`
+                    authorization: `Bearer ${BLIZZARDAPI_ACCESS_TOKEN}`
                 }
             });
         resolve(ret);
@@ -76,17 +76,24 @@ function Get(sub_url, param)
 
 module.exports =
 {
-    BLIZZARDAPI_AUTH,
-    BLIZZARDAPI_URL,
-    BLIZZARDAPI_ACCESS_TOKEN,
-    BLIZZARDAPI_REGION,
-
-    BLIZZARDAPI_NAMESPACE,
-    BLIZZARDAPI_LOCALE,
-
     BLIZZARDAPI_URL_START,
     BLIZZARDAPI_URL_END,
 
+    GetAuth: () => BLIZZARDAPI_AUTH,
+
+    SetAccessToken: (accessToken) => BLIZZARDAPI_ACCESS_TOKEN = accessToken,
+    GetAccessToken: () => BLIZZARDAPI_ACCESS_TOKEN,
+
+    SetNamespace: (namespace) => BLIZZARDAPI_NAMESPACE = namespace,
+    GetNamespace: () => BLIZZARDAPI_NAMESPACE,
+
+    SetLocale: (locale) => BLIZZARDAPI_LOCALE = locale,
+    GetLocale: () => BLIZZARDAPI_LOCALE,
+
+    SetRegion: (region) => BLIZZARDAPI_REGION = region,
+    GetRegion: () => BLIZZARDAPI_REGION,
+
+    BuildNamespace,
+    BuildAPIURL,
     Get,
-    SetAPIOptions,
 };

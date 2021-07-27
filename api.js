@@ -5,7 +5,8 @@ const RaidData = require('./src/raiddata');
 const GameMap  = require('./src/map');
 const Realms = require('./src/realms');
 
-const APIKey = require('./apikey')
+var APIKey = require('./apikey')
+
 /**
  * Must be called for every project to make use out of it
  * 
@@ -26,12 +27,12 @@ function InitAPI(blizzapi = false, oauth2 = null, region = 'eu')
 
         if(blizzapi)
         {
-            APIKey.BLIZZARD_URL = APIKey.BLIZZARDAPI_URL_START + region + APIKey.BLIZZARDAPI_URL_END;
-            var oauthObj = oauth2==null?APIKey.BLIZZARDAPI_AUTH:oauth2;
+            APIKey.SetRegion(region);
+            var oauthObj = oauth2==null?APIKey.GetAuth():oauth2;
             oauthObj.credentials.getToken().then(async (user) =>
             {
-                APIKey.BLIZZARDAPI_ACCESS_TOKEN = user['accessToken'];
-                if(APIKey.BLIZZARDAPI_ACCESS_TOKEN == null)
+                APIKey.SetAccessToken(user['accessToken']);
+                if(APIKey.GetAccessToken() == null)
                 {
                     console.log(`${Settings.LOG_PREFIX} Could not authorize user for Blizzard API`);
                     resolve(false);
@@ -56,8 +57,8 @@ module.exports =
     GameMap,
     RaidData,
     Realms,
-    
-    APIKey,
+
+    Blizzard:APIKey,
 
     InitAPI: InitAPI,
 };

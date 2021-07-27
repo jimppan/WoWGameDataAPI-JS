@@ -66,11 +66,11 @@ function GetRealms(status = '', timezone = '', orderby = '')
                 var newRealm = new Realm();
 
                 newRealm.m_iID = realmData.id;
-                newRealm.m_szName = realmData.name[APIKey.BLIZZARDAPI_LOCALE];
+                newRealm.m_szName = realmData.name[APIKey.GetLocale()];
                 newRealm.m_bIsTournament = realmData.is_tournament;
                 newRealm.m_szTimeZone = realmData.timezone;
-                newRealm.m_szRegion = realmData.region.name[APIKey.BLIZZARDAPI_LOCALE];
-                newRealm.m_szCategory = realmData.category[APIKey.BLIZZARDAPI_LOCALE];
+                newRealm.m_szRegion = realmData.region.name[APIKey.GetLocale()];
+                newRealm.m_szCategory = realmData.category[APIKey.GetLocale()];
                 newRealm.m_szType = realmData.type.type;
 
                 newRealm.m_bOnline = realmStatus.status.type;
@@ -89,6 +89,6 @@ function GetRealms(status = '', timezone = '', orderby = '')
 module.exports =
 {
     Realm,
-    
+
     GetRealms,
 }
