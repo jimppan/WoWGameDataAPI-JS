@@ -88,7 +88,18 @@ module.exports =
     SetLocale: (locale) => BLIZZARDAPI_LOCALE = locale,
     GetLocale: () => BLIZZARDAPI_LOCALE,
 
-    SetRegion: (region) => BLIZZARDAPI_REGION = region,
+    SetRegion: (region) => 
+    {
+        switch(region)
+        {
+            case 'lan': // latin america
+            case 'oce': // oceanic
+            case 'sa':  // south america
+            case 'na':  // north america
+                region = 'us';
+        }
+        BLIZZARDAPI_REGION = region
+    },
     GetRegion: () => BLIZZARDAPI_REGION,
 
     BuildNamespace,

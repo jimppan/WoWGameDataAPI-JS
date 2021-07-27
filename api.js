@@ -58,7 +58,7 @@ module.exports =
     RaidData,
     Realms,
 
-    Blizzard:APIKey,
+    Blizzard: APIKey,
 
     InitAPI: InitAPI,
 };
