@@ -58,7 +58,7 @@ const RealmTimezone =
     MELBOURNE: 'Australia/Melbourne',
 
     // TW
-    TAIPEI: 'Asia/Taipei'
+    TAIPEI: 'Asia/Taipei',
 
     // KR
     SEOUL: 'Asia/Seoul'
