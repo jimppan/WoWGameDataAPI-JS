@@ -1,6 +1,6 @@
 {
   "name": "wowgamedataapi-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "API for WoW gamedata, data used from wow.tools",
   "main": "api.js",
   "scripts": {
