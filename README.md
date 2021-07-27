@@ -5,3 +5,4 @@ API for WoW gamedata, data used from blizzard api & wow.tools
 
 - npm install csv-parser
 - npm install client-oauth2
+- npm install axios
