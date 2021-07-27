@@ -23,7 +23,7 @@ var   BLIZZARDAPI_ACCESS_TOKEN      = null;                           // Receive
 var   BLIZZARDAPI_URL_START         = 'https://';
 var   BLIZZARDAPI_URL_END           = '.api.blizzard.com/';
 
-var   BLIZZARDAPI_URL               = `${BLIZZARDAPI_URL_START}${modules.exports.BLIZZARDAPI_REGION}${BLIZZARDAPI_URL_END}`; // By default, is changed once InitAPI is called with region paramater
+var   BLIZZARDAPI_URL               = `${BLIZZARDAPI_URL_START}${module.exports.BLIZZARDAPI_REGION}${BLIZZARDAPI_URL_END}`; // By default, is changed once InitAPI is called with region paramater
 
 const BLIZZARDAPI_AUTH  = new ClientOAuth2({
     clientId:         'Client-ID-Here',
