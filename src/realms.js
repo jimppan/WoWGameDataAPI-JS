@@ -88,5 +88,7 @@ function GetRealms(status = '', timezone = '', orderby = '')
 
 module.exports =
 {
+    Realm,
+    
     GetRealms,
 }
