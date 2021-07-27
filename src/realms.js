@@ -62,7 +62,14 @@ const RealmTimezone =
 
     // KR
     SEOUL: 'Asia/Seoul'
+}
 
+const RealmPopularity =
+{
+    LOW:    'LOW',
+    MEDIUM: 'MEDIUM',
+    HIGH:   'HIGH',
+    FULL:   'FULL'
 }
 
 /**
@@ -127,7 +134,7 @@ function GetRealms(status = '', timezone = '', orderby = '')
 
                 realmList.push(newRealm);
             }
-            resolve(realmList);
+            resolve(new APIKey.BlizzardResponse(result, realmList));
         });
     })
 
@@ -140,6 +147,7 @@ module.exports =
 
     RealmCategory,
     RealmTimezone,
-
+    RealmPopularity,
+    
     GetRealms,
 }

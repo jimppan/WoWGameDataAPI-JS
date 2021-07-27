@@ -32,6 +32,21 @@ const BLIZZARDAPI_AUTH  = new ClientOAuth2({
     redirectUri:      'http://example.com/auth/github/callback'
 })
 
+/**
+ * BlizzardResponse
+ * 
+ * m_Result  = raw axios response object
+ * m_Data    = custom data generated from the API call
+ */
+class BlizzardResponse
+{
+    constructor(result = null, data = null)
+    {
+        this.m_Result = result;
+        this.m_Data   = data;
+    }
+}
+
 function BuildAPIURL(sub_url)
 {
     return BLIZZARDAPI_URL_START+
@@ -105,4 +120,6 @@ module.exports =
     BuildNamespace,
     BuildAPIURL,
     Get,
+
+    BlizzardResponse,
 };
