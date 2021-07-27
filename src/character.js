@@ -213,7 +213,6 @@ function LoadCharacterClasses()
 
             cls.m_Specs = new Map();
 
-            console.log(cls.m_szName);
             g_Classes.set(cls.m_szName.toLowerCase(), cls);
         });
 
