@@ -17,6 +17,54 @@ class Realm
     }
 }
 
+const RealmCategory =
+{
+    //EU
+    GERMAN:  'German',
+    FRENCH:  'French',
+    RUSSIAN: 'Russian',
+    SPAINSH: 'Spanish',
+
+    ENGLISH: 'English',
+
+    // NA
+    US_WEST: 'US West',
+    US_EAST: 'US East',
+
+    // LATIN AMERICA
+    BRAZIL:  'Brazil',
+    LAN:     'Latin America',
+
+    // OCE
+    OCEANIC: 'Oceanic',
+
+    // TW
+    TAIWAN: 'Taiwan',
+
+    // KR
+    KOREA: 'Korea',
+}
+
+const RealmTimezone =
+{
+    // EU
+    PARIS: 'Europe/Paris',
+
+    // NA & LAN
+    LOS_ANGELES: 'America/Los_Angeles',
+    NEW_YORK: 'America/New_York',
+
+    // OCE
+    MELBOURNE: 'Australia/Melbourne',
+
+    // TW
+    TAIPEI: 'Asia/Taipei'
+
+    // KR
+    SEOUL: 'Asia/Seoul'
+
+}
+
 /**
  * Get currently connected realms
  * 
@@ -89,6 +137,9 @@ function GetRealms(status = '', timezone = '', orderby = '')
 module.exports =
 {
     Realm,
+
+    RealmCategory,
+    RealmTimezone,
 
     GetRealms,
 }
