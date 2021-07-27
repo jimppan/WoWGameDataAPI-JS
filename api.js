@@ -27,7 +27,6 @@ function InitAPI(blizzapi = false, oauth2 = null, region = 'eu')
         if(blizzapi)
         {
             APIKey.BLIZZARD_URL = APIKey.BLIZZARDAPI_URL_START + region + APIKey.BLIZZARDAPI_URL_END;
-            console.log(APIKey.BLIZZARD_URL)
             var oauthObj = oauth2==null?APIKey.BLIZZARDAPI_AUTH:oauth2;
             oauthObj.credentials.getToken().then(async (user) =>
             {
@@ -57,6 +56,8 @@ module.exports =
     GameMap,
     RaidData,
     Realms,
+    
+    APIKey,
 
     InitAPI: InitAPI,
 };
