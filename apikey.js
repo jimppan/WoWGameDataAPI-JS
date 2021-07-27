@@ -55,8 +55,6 @@ function Get(sub_url, param)
 {
     var promise = new Promise(async (resolve, reject) =>
     {
-        console.log(BuildAPIURL(sub_url));
-        console.log(BuildNamespace())
         var ret = await Axios.get(BuildAPIURL(sub_url), 
             {
                 params: 
