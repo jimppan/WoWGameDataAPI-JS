@@ -1,4 +1,5 @@
 var APIKey = require('../apikey');
+var Cache = require('./cache');
 
 class Realm
 {
@@ -72,24 +73,44 @@ const RealmPopularity =
     FULL:   'FULL'
 }
 
+const RealmType =
+{
+    NORMAL: 'NORMAL', // PvE
+    PVP:    'PVP',
+    PVP_RP: 'PVP_RP',
+}
+
 /**
  * Get currently connected realms
  * 
- * @param {String} status     - Status type, 'UP' or 'DOWN', empty for both (Online or offline)
- * @param {String} timezone   - Time zone, leave empty for all
- * @param {String} orderby    - What field to order by, population.type to order them by population
+ * @param {Boolean} forceUpdate  - True to force update, no matter how recent it was cached
+ * @param {String}  status       - Status type, 'UP' or 'DOWN', empty for both (Online or offline)
+ * @param {String}  timezone     - Time zone, leave empty for all
+ * @param {String}  orderby      - What field to order by, population.type to order them by population
  * @returns 
  */
-function GetRealms(status = '', timezone = '', orderby = '')
+function GetRealms(forceUpdate = false, status = '', timezone = '', orderby = '')
 {
     const promise = new Promise((resolve, reject) => 
     {
-        APIKey.Get('data/wow/search/connected-realm', 
-        {
+        var subUrl = 'data/wow/search/connected-realm';
+        var fullUrl = APIKey.BuildAPIURL(subUrl);
+        var param = {
             'status.type':status,
             'realms.timezone':timezone,
             'orderby':orderby,
+        };
+
+        var unhashedCacheKey = JSON.stringify({url:fullUrl, params:param});
+        var cacheEntry = Cache.DynamicCache.GetBlizzardQuery(unhashedCacheKey);
+
+        if(!forceUpdate && cacheEntry != null && !cacheEntry.NeedsUpdate())
+        {
+            resolve(new APIKey.BlizzardResponse(cacheEntry.m_RawResult, cacheEntry.m_Data));
+            return promise;
         }
+
+        APIKey.Get(subUrl,param
         ).then((result) => 
         {
             if(result.data == null)
@@ -134,6 +155,8 @@ function GetRealms(status = '', timezone = '', orderby = '')
 
                 realmList.push(newRealm);
             }
+
+            Cache.DynamicCache.CacheBlizzardQuery(realmList, result, unhashedCacheKey, Cache.GetRealmsCacheUpdateInterval());
             resolve(new APIKey.BlizzardResponse(result, realmList));
         });
     })
@@ -148,6 +171,6 @@ module.exports =
     RealmCategory,
     RealmTimezone,
     RealmPopularity,
-    
+
     GetRealms,
 }

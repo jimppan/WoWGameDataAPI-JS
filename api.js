@@ -4,6 +4,7 @@ const Character = require('./src/character');
 const RaidData = require('./src/raiddata');
 const GameMap  = require('./src/map');
 const Realms = require('./src/realms');
+const Cache = require('./src/cache');
 
 var APIKey = require('./apikey')
 
@@ -57,6 +58,7 @@ module.exports =
     GameMap,
     RaidData,
     Realms,
+    Cache,
 
     Blizzard: APIKey,
 

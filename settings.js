@@ -5,7 +5,6 @@ var LOG_PREFIX = "[WoWGameDataAPI]"
 
 // Default data directory WoWGameDataAPI-JS/data/2.5.1.39170/dungeonencounter.csv
 
-
 var DATA_FOLDER                 = path.join(__dirname, "./data"); //WoWGameDataAPI-JS/data by default
 var DATA_PATCH                  = '2.5.1.39170';
 
