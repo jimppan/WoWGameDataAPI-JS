@@ -67,10 +67,11 @@ const RealmTimezone =
 
 const RealmPopularity =
 {
-    LOW:    'LOW',
-    MEDIUM: 'MEDIUM',
-    HIGH:   'HIGH',
-    FULL:   'FULL'
+    OFFLINE: 'OFFLINE',
+    LOW:     'LOW',
+    MEDIUM:  'MEDIUM',
+    HIGH:    'HIGH',
+    FULL:    'FULL'
 }
 
 const RealmType =
